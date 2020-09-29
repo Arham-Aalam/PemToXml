@@ -94,7 +94,7 @@ def pubKeyPEM(xmlPublicKeyFile):
    exponent = GetLong(rsaKeyValue.getElementsByTagName('Exponent')[0].childNodes)
    publicKey = RSA.construct((modulus, exponent))
    fileName = basename(xmlPublicKeyFile)
-   with open (fileName+'.pem', 'w') as pkFile:
+   with open (fileName+'.pem', 'wb') as pkFile:
       pkFile.write(publicKey.exportKey())
    return
 #
@@ -104,15 +104,17 @@ def privKeyPEM(xmlPrivateKeyFile):
    with open (xmlPrivateKeyFile, 'rb') as pkFile:
       xmlPrivateKey = pkFile.read()
    rsaKeyValue = minidom.parseString(xmlPrivateKey)
+   print(rsaKeyValue.toprettyxml())
    modulus = GetLong(rsaKeyValue.getElementsByTagName('Modulus')[0].childNodes)
    exponent = GetLong(rsaKeyValue.getElementsByTagName('Exponent')[0].childNodes)
    d = GetLong(rsaKeyValue.getElementsByTagName('D')[0].childNodes)
    p = GetLong(rsaKeyValue.getElementsByTagName('P')[0].childNodes)
    q = GetLong(rsaKeyValue.getElementsByTagName('Q')[0].childNodes)
    qInv = GetLong(rsaKeyValue.getElementsByTagName('InverseQ')[0].childNodes)
-   privateKey = RSA.construct((modulus, exponent, d, p, q, qInv))
+   print((modulus, exponent, d, p, q, qInv))
+   privateKey = RSA.construct((modulus, exponent, d, p, q, qInv), consistency_check=False)
    fileName = basename(xmlPrivateKeyFile)
-   with open (fileName+'.pem', 'w') as pkFile:
+   with open (fileName+'.pem', 'wb') as pkFile:
       pkFile.write(privateKey.exportKey())
    return
 #
