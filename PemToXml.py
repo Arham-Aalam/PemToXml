@@ -38,9 +38,9 @@ def pubKeyXML(pemPublicKeyFile):
 def privKeyXML(pemPrivateKeyFile):
    with open (pemPrivateKeyFile, 'rb') as pkFile:
       pemPrivKey = pkFile.read()
-   print pemPrivKey
+   print (pemPrivKey)
    lines = pemPrivKey.replace(" ", '').split()
-   print lines
+   print (lines)
    keyDer = DerSequence()
    keyDer.decode(a2b_base64(''.join(lines[1:-1])))
    xml  = '<RSAKeyValue>'
@@ -145,6 +145,6 @@ def main(args):
          inputfile = args.private
          privKeyPEM(inputfile)
    else:
-      print 'Nothing to do'
+      print ('Nothing to do')
 if __name__ == "__main__":
    main(parse_args())
